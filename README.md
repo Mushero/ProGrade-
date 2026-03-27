@@ -9,8 +9,6 @@
 
 本系统旨在解决高校课堂教学中平时成绩记录繁琐、互动性不足的问题。通过 **FastAPI** 后端驱动与 **Vue3** 现代化前端界面的有机结合，实现了学生名单管理、实时积分扣减、随机点名互动以及一键成绩归档功能。
 
-系统采用 **Nuitka** 编译器级加壳打包，确保了代码的安全性与独立运行的便捷性，无需安装任何环境，双击即可开启智慧课堂。
-
 ---
 
 ## 🚀 核心功能
@@ -31,24 +29,25 @@
 | **后端** | FastAPI + Uvicorn | 异步高性能、接口响应秒开 |
 | **数据库** | SQLite | 轻量、免配置、易于迁移 |
 | **GUI 容器** | PyWebView (Edge Chromium) | 现代化的桌面原生体验 |
-| **打包工具** | Nuitka (C-level Compiler) | 源码混淆加密、高性能二进制执行 |
+| **打包工具** | pyinstaller | 方便快捷 |
 
 ---
 
 ## 📦 安装与使用
 
 ### 对于普通教师 (使用编译版)
-1.  下载发布的 `score_pro.exe` 文件。
-2.  将其放置在您希望存储数据的文件夹中。
-3.  **双击运行**：首次启动将自动创建 `data.db` 数据库。
-4.  **导入名单**：准备好包含“学号、姓名、平时总分”的 Excel 文件进行导入。
+1.  联系作者获取编译好的程序文件，可以**直接运行**
+2.  下载发布的 `score_pro.exe` 文件。
+3.  将其放置在您希望存储数据的文件夹中。
+4.  **双击运行**：首次启动将自动创建 `data.db` 数据库。
+5.  **导入名单**：准备好包含“学号、姓名、平时总分”的 Excel 文件进行导入。
 
 ### 对于开发者 (二次开发)
 1.  **环境配置**：
     ```bash
     python -m venv venv
     source venv/bin/activate  # Windows: venv\Scripts\activate
-    pip install fastapi uvicorn webview pandas openpyxl
+    pip install fastapi uvicorn webview pandas openpyxl pyinstaller
     ```
 2.  **运行程序**：
     ```bash
@@ -56,30 +55,14 @@
     ```
 3.  **编译打包** (推荐)：
     ```bash
-    python -m nuitka --standalone --onefile --windows-disable-console score_pro.py
+    pyinstaller --noconfirm --onedir --windowed --add-data "data.db;." --hidden-import "uvicorn.logging" --hidden-import "uvicorn.loops" --hidden-import "uvicorn.loops.auto" --hidden-import "uvicorn.protocols.auto" --hidden-import "uvicorn.protocols.websockets.auto" --hidden-import "uvicorn.protocols.http.auto" --hidden-import "fastapi.middleware.cors" --hidden-import "multipart" "grade.py"
     ```
-
----
-
-## 📝 目录结构
-
-```text
-.
-├── score_pro.py        # 程序核心逻辑 (后端 API + 前端 HTML)
-├── data.db             # SQLite 数据库文件 (运行时自动生成)
-├── README.md           # 项目说明文档
-└── static/             # (可选) 本地静态资源目录
-```
 
 ---
 
 ## 🤝 鸣谢与贡献
 
 本项目由 **suwnd** 独立设计与开发。如果您在使用过程中有任何建议或发现了 Bug，欢迎通过以下方式反馈：
-
-* **作者**: suwnd
-* **单位**: 吉林警察学院 (Jilin Police College)
-* **研究方向**: 计算机视觉 & 智能司法鉴定
 
 ---
 
